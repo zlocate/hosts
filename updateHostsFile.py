@@ -13,7 +13,6 @@ import json
 import locale
 import os
 import platform
-from pathlib import Path
 import re
 import shutil
 import socket
@@ -22,6 +21,7 @@ import sys
 import tempfile
 import time
 from glob import glob
+from pathlib import Path
 from typing import Optional, Tuple
 
 # Detecting Python 3 for version-dependent implementations
@@ -48,6 +48,9 @@ elif platform.system() == "Windows":
 else:
     SUDO = ["/usr/bin/env", "sudo"]
 
+# Does not use sudo in docker image
+if os.environ.get("IN_CONTAINER") == "1":
+    SUDO = []
 
 # Project Settings
 BASEDIR_PATH = os.path.dirname(os.path.realpath(__file__))
